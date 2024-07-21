@@ -5,6 +5,7 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { Header } from "./_components/header";
+import { Toaster, toast } from 'sonner'
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
-        
+      <Toaster />        
         <TRPCReactProvider>
           <Header />
           {children}        

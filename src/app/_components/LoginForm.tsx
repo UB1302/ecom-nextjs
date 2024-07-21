@@ -1,14 +1,49 @@
+"use client";
 import { Input } from "./input";
 import { Button } from "./button";
 import { useState } from "react";
+import { loginUser } from "../action";
 
-export const SignUpForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const handleUserName = () => {};
+export const LoginForm = (props: {
+  setShowLoginForm: (input: any) => void;
+  setShowVerificationForm: (input: any) => void;
+  setEmailId: (input: any) => void;
+  setPassword: (input: any) => void;
+  setShowProductCategories: (input: any) => void;
+  password: string;
+  emailId: string;
+}) => {
 
-  const handleCreateAccount = () => {};
+  const [showPassword, setshowPassword] = useState(false)
+  
+  const handleEmailId = (e: any) => {
+    props.setEmailId(e.target.value)
+  }
+
+  const handlePassword = (e: any) => {
+    props.setPassword(e.target.value);
+  };
+
+  const handleSignUp = () => {
+    props.setShowLoginForm(false);
+    props.setShowVerificationForm(false);
+  };
+
+
+  const handleLogin = async (e:any) => {
+    e.preventDefault();
+    let data = await loginUser({emailId: props.emailId, password: props.password})
+    console.log(data)
+    if(data){
+      // redirect to product page
+      props.setShowProductCategories(true)
+    }else{
+      // show error toast of wrong credentials
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={(e)=>handleLogin(e)}>
       <div className="flex h-full w-full items-center justify-center">
         <div className="flex min-h-[70vh] min-w-[40vw] flex-col items-center justify-center gap-12 rounded-[20px] border-2 border-[#C1C1C1]">
           <h1>Login</h1>
@@ -18,33 +53,35 @@ export const SignUpForm = () => {
           <div className="w-4/5">
             <Input
               type="email"
-              value="dcsd"
-              onChangeHandler={handleUserName}
+              value={props.emailId}
+              onChangeHandler={handleEmailId}
               label={"Email"}
               placeholder={"Enter your email id"}
             />
           </div>
-          <div className="w-4/5 relative">
+          <div className="relative w-4/5">
             {/* handle show btn for password */}
             <Input
               type={showPassword ? "text" : "password"}
-              value="dcsd"
-              onChangeHandler={handleUserName}
+              value={props.password}
+              onChangeHandler={handlePassword}
               label={"Password"}
               placeholder={"Enter your name"}
               // style = "relative"
             />
-            <button className="absolute top-1/2 -translate-y-1/2 right-[20px]">{showPassword ? 'Hide' : 'Show'}</button>
+            <button className="absolute right-[20px] top-1/2 -translate-y-1/2">
+              {showPassword ? "Hide" : "Show"}
+            </button>
           </div>
-          
+
           <div className="h-[3rem] w-4/5">
             <Button
               text={"LOGIN"}
-              onClickHandler={handleCreateAccount}
+              // onClickHandler={handleLogin}
             ></Button>
           </div>
           <div>
-            Have an Account? <span>SIGN UP</span>
+            Have an Account? <span onClick={handleSignUp}>SIGN UP</span>
           </div>
         </div>
       </div>

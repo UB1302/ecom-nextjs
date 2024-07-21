@@ -29,3 +29,23 @@ model product_categories {
 
     @@index([categoryId])
 }
+
+model user {
+    id Int @id @default(autoincrement())
+    name String
+    emailId String
+    password String
+    authToken String
+    // verificationCode Int
+
+    @@index([emailId])
+}
+
+model user_verification_code {
+    id Int @id @default(autoincrement())    
+    emailId String
+    verificationCode Int    
+    createdAt DateTime @default(now())
+
+    @@index([id])
+}

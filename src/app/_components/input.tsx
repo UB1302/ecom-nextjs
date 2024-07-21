@@ -1,7 +1,7 @@
 "use client";
 
 export const Input = (props: {
-  value: string;
+  value: string | number;
   type: string;
   onChangeHandler: (input: any) => void;
   label: string;

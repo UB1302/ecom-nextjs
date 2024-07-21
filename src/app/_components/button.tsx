@@ -16,14 +16,18 @@
 // }
 
 
-export const Button = (props: {text: string, onClickHandler: (input: any) => void}) => {
+// export const Button = (props: {text: string, onClickHandler: (input: any) => void}) => {
+    export const Button = (props: {text: string}) => {
 
     // const handleClick = () => {
     //     let input = "yo"
     //     props.onClickHandler(input)
     // }
 
-    return <button onClick={(e)=> props.onClickHandler(e)} className="bg-black w-full h-full rounded-[6px] text-white">
+    // return <button onClick={(e)=> props.onClickHandler(e)} className="bg-black w-full h-full rounded-[6px] text-white" type = "submit">
+    //     {props.text}
+    // </button>
+    return <button className="bg-black w-full h-full rounded-[6px] text-white" type = "submit">
         {props.text}
     </button>
 }
