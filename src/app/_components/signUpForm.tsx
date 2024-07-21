@@ -45,7 +45,7 @@ export const SignUpForm = (props: {setEmailId: (input: any)=> void, setShowLogin
   const generateVerificationCode = async (e: any) => {
     e.preventDefault();
     if(props.password.length < 8){
-      toast.error('My first toast')
+      toast.error('Password length should be grater than equal to 8')
       return
     }
     console.log("generateVerificationCode")
