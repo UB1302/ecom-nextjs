@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useEffect, useState } from "react";
 import {
   getproductCategories,
@@ -6,6 +6,11 @@ import {
   updateUserCategory,
   createUserCategory,
 } from "../action";
+
+const paginationNumbers = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+];
+const pageSize = 6;
 
 export const ProductCategory = () => {
   const [productCategoryList, setProductCategoryList] = useState<any[]>([]);
@@ -16,13 +21,18 @@ export const ProductCategory = () => {
     categoryId: "",
     active: "",
   });
+
+  const [currentPage, setcurrentPage] = useState(1);
+  const [paginationStartIndex, setPaginationStartIndex] = useState(0);
+
   useEffect(() => {
     getCategories();
     // userSelectedCategories();
-  }, []);
+    console.log(currentPage)
+  }, [currentPage]);
 
   const getCategories = async () => {
-    let data = await getproductCategories();
+    let data = await getproductCategories({ page: currentPage, pageSize: pageSize });
     console.log(data);
     userSelectedCategories(data);
   };
@@ -89,36 +99,103 @@ export const ProductCategory = () => {
     }
   };
 
+  const handlePagination = (page: number) => {
+    setcurrentPage(page)
+  }
+
+  const handleRightArrow = () => {
+    if(currentPage === 16){
+        return
+    }
+    if(paginationStartIndex === 16){
+        return
+    }
+    
+        setPaginationStartIndex(prevState => prevState + 1)
+    
+    setcurrentPage( currentPage +1)
+  }
+
+  const handleLeftArrow = () => {
+    if(currentPage === 1){
+        return
+    }
+    if(paginationStartIndex === 0){
+        return
+    }
+    setPaginationStartIndex(prevState => prevState - 1)
+    setcurrentPage( currentPage - 1)
+  }
+
+  const handleLeftDoubleArrow = () => {
+    if(paginationStartIndex === 0){
+        return
+    }
+    
+    setPaginationStartIndex(prevState => prevState - 6)
+  }
+
+  const handleRightDoubleArrow = () => {
+    if(paginationStartIndex > 16-6){
+        return
+    }
+    
+    setPaginationStartIndex(prevState => prevState + 6)
+  }
+
   return (
-    <div className="flex h-full w-full items-center justify-center p-6">
-      <div className="flex min-h-[70vh] min-w-[40vw] flex-col items-center justify-center gap-12 rounded-[20px] border-2 border-[#C1C1C1] px-[60px] py-10">
-        <div>
+    <div className="flex justify-center overflow-hidden p-6">
+      <div className="h-[70vh] min-w-[40vw] rounded-[20px] border-2 border-[#C1C1C1] px-[60px] py-10">
+        <div className="flex flex-col items-center justify-center">
           <h1 className="text-[32px] font-semibold">
             Please mark your interests!
           </h1>
           <h4 className="text-base font-normal">We will keep you notified.</h4>
         </div>
 
-        <div className="w-4/5">
+        <div className="mt-8">
           <div>
             <h3 className="text-xl font-medium">My saved interests!</h3>
           </div>
-          <div className="flex flex-col">
+          <div className="mt-2 flex flex-col">
             {productCategoryList.length
               ? productCategoryList.map((productObj, index) => {
                   return (
-                    <div key={productObj.categoryId}>
+                    <div
+                      key={productObj.categoryId}
+                      className="checkbox-container flex items-center py-3"
+                    >
                       <input
                         type="checkbox"
                         checked={productObj.isSelected}
                         onChange={(e) => handleCheckChange(e, index)}
+                        className="input-checkbox h-6 w-6 rounded-md bg-black focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-white"
                       />
-                      <span>{productObj.name}</span>
+                      <span className="ps-2">{productObj.name}</span>
                     </div>
                   );
                 })
               : null}
           </div>
+        </div>
+        <div className="flex">
+        <span className="px-4 text-[#ACACAC]" onClick={handleLeftDoubleArrow}>&lt;&lt;</span>
+          <span className="px-2 text-[#ACACAC]" onClick={handleLeftArrow}>&lt;</span>
+          {paginationNumbers.slice(paginationStartIndex, paginationStartIndex+6).map((page) => (
+            <span
+              className={
+                currentPage === page
+                  ? "px-2 font-semibold"
+                  : "px-2 text-[#ACACAC]"
+              }
+            //   onClick={(e:any,page: number) => handlePagination(page)}
+            onClick={() => handlePagination(page)}
+            >
+              {page}
+            </span>
+          ))}
+          <span className="px-2 text-[#ACACAC]" onClick={handleRightArrow}>&gt;</span>
+          <span className="px-4 text-[#ACACAC]" onClick={handleRightDoubleArrow}>&gt;&gt;</span>
         </div>
       </div>
     </div>

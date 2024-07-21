@@ -110,7 +110,7 @@ export const postRouter = createTRPCRouter({
   createLoginAuthToken: publicProcedure
     .input(
       z.object({
-        userId: z.string(),  
+        userId: z.string(),
         authToken: z.string().uuid(),
       }),
     )
@@ -138,12 +138,12 @@ export const postRouter = createTRPCRouter({
       z.object({
         userId: z.string(),
         active: z.boolean(),
-        categoryId: z.string()
+        categoryId: z.string(),
       }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.user_categories.updateMany({
-        where: { userId: input.userId, categoryId: input.categoryId},
+        where: { userId: input.userId, categoryId: input.categoryId },
         data: {
           active: input.active,
         },
@@ -161,7 +161,23 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-    getProductCategories: publicProcedure.query(({ ctx }) => {
-      return ctx.db.product_categories.findMany({});
+  getProductCategories: publicProcedure
+    .input(
+      z.object({
+        page: z.number(),
+        pageSize: z.number(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      const { page = 1, pageSize = 10 } = input;
+      const skip = (page - 1) * pageSize;
+      const take = pageSize;
+      return ctx.db.product_categories.findMany({
+        skip,
+        take,
+        orderBy: {
+          createdAt: "asc", // Adjust orderBy as needed
+        },
+      });
     }),
 });

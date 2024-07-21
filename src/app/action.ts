@@ -112,8 +112,13 @@ export const getUserCategories = async ({userId}:user) => {
   return data
 }
 
-export const getproductCategories = async () => {
-  let data = await api.post.getProductCategories()
+interface pagination {
+  page: number
+  pageSize: number
+}
+
+export const getproductCategories = async ({page, pageSize}: pagination) => {
+  let data = await api.post.getProductCategories({page, pageSize})
   console.log(data)
   return data
 }
