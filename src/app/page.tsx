@@ -14,19 +14,23 @@ import { ProductCategory } from "./_components/productCategory";
 import { createUserAccount } from "./action";
 
 export default function Home() {
-  useEffect(() => {
-    let userAuth = localStorage.getItem("userAuth");
-    console.log(userAuth);
-  }, []);
-
   // void api.post.getLatest.prefetch();
   const [emailId, setEmailId] = useState("");
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [showVerificationForm, setShowVerificationForm] = useState(false);
-  const [showProductCategories, setShowProductCategories] = useState(true);
+  const [showProductCategories, setShowProductCategories] = useState(false);
   const [userName, setUserName] = useState("");
   // const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    let userAuth = localStorage.getItem("userAuth");
+    console.log(userAuth);
+    if (userAuth) {
+      setShowLoginForm(false);
+      setShowProductCategories(true)
+    }
+  }, []);
 
   const handleSignUp = async () => {
     await createUserAccount({

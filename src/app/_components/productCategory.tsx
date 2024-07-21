@@ -6,6 +6,7 @@ import {
   updateUserCategory,
   createUserCategory,
 } from "../action";
+import { Loader } from "./loader";
 
 const paginationNumbers = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
@@ -24,6 +25,7 @@ export const ProductCategory = () => {
 
   const [currentPage, setcurrentPage] = useState(1);
   const [paginationStartIndex, setPaginationStartIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     getCategories();
@@ -32,9 +34,11 @@ export const ProductCategory = () => {
   }, [currentPage]);
 
   const getCategories = async () => {
+    setIsLoading(true)
     let data = await getproductCategories({ page: currentPage, pageSize: pageSize });
     console.log(data);
     userSelectedCategories(data);
+    setIsLoading(false)
   };
 
   const userSelectedCategories = async (categoryList: any[]) => {
@@ -157,7 +161,7 @@ export const ProductCategory = () => {
           <div>
             <h3 className="text-xl font-medium">My saved interests!</h3>
           </div>
-          <div className="mt-2 flex flex-col">
+          {isLoading ? <Loader/> :   <div className="mt-2 flex flex-col">
             {productCategoryList.length
               ? productCategoryList.map((productObj, index) => {
                   return (
@@ -176,7 +180,8 @@ export const ProductCategory = () => {
                   );
                 })
               : null}
-          </div>
+          </div>}
+        
         </div>
         <div className="flex">
         <span className="px-4 text-[#ACACAC]" onClick={handleLeftDoubleArrow}>&lt;&lt;</span>

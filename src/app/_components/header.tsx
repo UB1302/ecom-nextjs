@@ -3,13 +3,19 @@ import Image from "next/image";
 import { useEffect } from "react";
 
 export function Header() {
-  let userAuth;
-  useEffect(()=>{
-    userAuth = localStorage.getItem("userAuth")
-    if(userAuth){
-      userAuth = JSON.parse(userAuth)
-    }
-  },[])
+  
+  // let userAuth;
+  // useEffect(()=>{
+  //   userAuth = localStorage.getItem("userAuth")
+  //   if(userAuth){
+  //     userAuth = JSON.parse(userAuth)
+  //   }
+  // },[])
+
+  let userAuth = localStorage.getItem("userAuth")
+  if(userAuth){
+    userAuth = JSON.parse(userAuth)
+  }
   
   return (
     <nav>
