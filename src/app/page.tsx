@@ -24,7 +24,7 @@ export default function Home() {
   const [emailId, setEmailId] = useState("");
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [showVerificationForm, setShowVerificationForm] = useState(false);
-  const [showProductCategories, setShowProductCategories] = useState(false);
+  const [showProductCategories, setShowProductCategories] = useState(true);
   const [userName, setUserName] = useState("");
   // const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
