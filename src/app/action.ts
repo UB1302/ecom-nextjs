@@ -71,10 +71,10 @@ export const createVerificationCode = async ({ emailId }: verificationCode) => {
     emailId: emailId,
     verificationCode: eightDigitNumber,
   });
-  sendOTPEmail(eightDigitNumber, emailId);
+  await sendOTPEmail(eightDigitNumber, emailId);
 };
 
-export const sendOTPEmail = (eightDigitNumber: number, emailId: string) => {
+export const sendOTPEmail = async (eightDigitNumber: number, emailId: string) => {
   const apiUrl = "https://api.mailersend.com/v1/email";
   const bearerToken =
     "mlsn.3a8fb6fefb79fe30a6bf599ac499661c4b27532b707936543a7731868f7105a4";
@@ -91,7 +91,7 @@ export const sendOTPEmail = (eightDigitNumber: number, emailId: string) => {
     text: `Greetings from the team, your OTP is ${eightDigitNumber}.`,
     html: `Greetings from the team, your OTP is ${eightDigitNumber}.`
   };
-  axios.post(apiUrl, requestPayload, {
+  await axios.post(apiUrl, requestPayload, {
     headers: {
       Authorization: `Bearer ${bearerToken}`,
       "Content-Type": "application/json",
