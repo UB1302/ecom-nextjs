@@ -23,7 +23,7 @@ model Post {
 model product_categories {
     id        Int      @id @default(autoincrement())
     name      String
-    categoryId String
+    categoryId String @unique
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
 
@@ -32,6 +32,7 @@ model product_categories {
 
 model user {
     id Int @id @default(autoincrement())
+    userId String @unique
     name String
     emailId String
     password String
@@ -46,6 +47,15 @@ model user_verification_code {
     emailId String
     verificationCode Int    
     createdAt DateTime @default(now())
+
+    @@index([id])
+}
+
+model user_categories {
+    id Int @id @default(autoincrement())    
+    userId String
+    categoryId String
+    active Boolean
 
     @@index([id])
 }

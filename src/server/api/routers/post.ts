@@ -30,10 +30,6 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
-  getProductCategories: publicProcedure.query(({ ctx }) => {
-    return ctx.db.product_categories.findMany();
-  }),
-
   createUser: publicProcedure
     .input(
       z.object({
@@ -41,6 +37,7 @@ export const postRouter = createTRPCRouter({
         emailId: z.string().email(),
         password: z.string().min(8),
         authToken: z.string().uuid(),
+        userId: z.string(),
         // verificationCode: z.number(),
       }),
     )
@@ -51,6 +48,7 @@ export const postRouter = createTRPCRouter({
           emailId: input.emailId,
           password: input.password,
           authToken: input.authToken,
+          userId: input.userId,
           // verificationCode: input.verificationCode,
         },
       });
@@ -83,27 +81,87 @@ export const postRouter = createTRPCRouter({
       return ctx.db.user_verification_code.findFirst({
         where: {
           emailId: input.emailId,
-          verificationCode: input.verificationCode
+          verificationCode: input.verificationCode,
         },
         orderBy: {
-          createdAt: 'desc' // or 'desc' for descending order
-        }
+          createdAt: "desc", // or 'desc' for descending order
+        },
       });
     }),
-  
-    login: publicProcedure
+
+  login: publicProcedure
     .input(
       z.object({
         emailId: z.string().email(),
-        password: z.string().min(8)
+        password: z.string().min(8),
+        // authToken: z.string().uuid(),
       }),
     )
     .query(({ ctx, input }) => {
       return ctx.db.user.findFirst({
         where: {
           emailId: input.emailId,
-          password: input.password
-        }
+          password: input.password,
+          // authToken: input.authToken
+        },
       });
+    }),
+
+  createLoginAuthToken: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),  
+        authToken: z.string().uuid(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: { userId: input.userId },
+        data: {
+          authToken: input.authToken,
+        },
+      });
+    }),
+  createUserCategory: publicProcedure
+    .input(z.object({ userId: z.string(), categoryId: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db.user_categories.create({
+        data: {
+          userId: input.userId,
+          categoryId: input.categoryId,
+          active: true,
+        },
+      });
+    }),
+  updateUserCategory: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        active: z.boolean(),
+        categoryId: z.string()
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.db.user_categories.updateMany({
+        where: { userId: input.userId, categoryId: input.categoryId},
+        data: {
+          active: input.active,
+        },
+      });
+    }),
+  getUserCategories: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.db.user_categories.findMany({
+        where: { userId: input.userId, active: true },
+      });
+    }),
+
+    getProductCategories: publicProcedure.query(({ ctx }) => {
+      return ctx.db.product_categories.findMany({});
     }),
 });

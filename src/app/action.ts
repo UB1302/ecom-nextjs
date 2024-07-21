@@ -27,6 +27,22 @@ interface loginUser {
     password: string; // Assuming verificationCode is a number
 }
 
+interface user {
+  userId: string
+}
+
+interface userCategory {
+  userId: string
+  categoryId: string
+  active: boolean
+}
+
+interface userCategory2 {
+  userId: string
+  categoryId: string
+  
+}
+
 export const createUserAccount = async ({
   name,
   emailId,
@@ -38,7 +54,8 @@ export const createUserAccount = async ({
     name: name,
     emailId: emailId,
     password: password,
-    authToken: uuidv4()
+    authToken: uuidv4(),
+    userId: uuidv4().replaceAll('-', "").substring("5")
   });
 };
 
@@ -74,9 +91,33 @@ export const getVerificationCodeAndVerify = async({emailId, verificationCode}: v
 }   
 
 export const loginUser = async ({emailId, password}:loginUser) => {
+  let authToken = uuidv4()
+  console.log("loginUser", "******************************")
     let data = await api.post.login({emailId, password})
     if(data){
-        return data
+      await api.post.createLoginAuthToken({userId: data.userId, authToken: authToken})
+      data['authToken'] = authToken
+      return data
     }
     return false
+}
+
+export const updateUserCategory = async ({userId,categoryId, active}: userCategory) => {
+  await api.post.updateUserCategory({userId, categoryId, active})
+}
+
+export const getUserCategories = async ({userId}:user) => {
+  let data = await api.post.getUserCategories({userId})
+  console.log(data)
+  return data
+}
+
+export const getproductCategories = async () => {
+  let data = await api.post.getProductCategories()
+  console.log(data)
+  return data
+}
+
+export const createUserCategory = async ({userId, categoryId}:userCategory2) => {
+  await api.post.createUserCategory({userId,categoryId})
 }

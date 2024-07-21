@@ -35,6 +35,7 @@ export const LoginForm = (props: {
     let data = await loginUser({emailId: props.emailId, password: props.password})
     console.log(data)
     if(data){
+      localStorage.setItem('userAuth', JSON.stringify(data))
       // redirect to product page
       props.setShowProductCategories(true)
     }else{
