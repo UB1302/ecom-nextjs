@@ -1,17 +1,22 @@
 'use client'
 import Image from "next/image";
+import { useEffect } from "react";
 
 export function Header() {
-  let userAuth = localStorage.getItem("userAuth")
-  if(userAuth){
-    userAuth = JSON.parse(userAuth)
-  }
+  let userAuth;
+  useEffect(()=>{
+    userAuth = localStorage.getItem("userAuth")
+    if(userAuth){
+      userAuth = JSON.parse(userAuth)
+    }
+  },[])
+  
   return (
     <nav>
       <div className="flex justify-end py-3 px-[40px] text-xs font-normal">
         <div className="px-[20px]">Help</div>
         <div className="px-[20px]">Orders & Returns</div>
-        <div className="px-[20px]">{userAuth ? userAuth?.name :  "username"}</div>
+        <div className="px-[20px]">{userAuth ? (userAuth as { name?: string }).name || "username" : "username"}</div>
       </div>
       <div className="flex justify-between px-[40px] pb-[22px]">
         <h1 className="text-2xl font-bold">ECOMMERCE</h1>

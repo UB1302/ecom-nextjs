@@ -55,7 +55,7 @@ export const createUserAccount = async ({
     emailId: emailId,
     password: password,
     authToken: uuidv4(),
-    userId: uuidv4().replaceAll('-', "").substring("5")
+    userId: uuidv4().replaceAll('-', "").substring(5)
   });
 };
 

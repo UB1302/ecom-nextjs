@@ -14,11 +14,10 @@ import { ProductCategory } from "./_components/productCategory";
 import { createUserAccount } from "./action";
 
 export default function Home() {
-  
-  useEffect(()=>{
-    let userAuth = localStorage.getItem("userAuth")
-    console.log(userAuth)
-  },[])
+  useEffect(() => {
+    let userAuth = localStorage.getItem("userAuth");
+    console.log(userAuth);
+  }, []);
 
   // void api.post.getLatest.prefetch();
   const [emailId, setEmailId] = useState("");
@@ -30,8 +29,12 @@ export default function Home() {
   const [password, setPassword] = useState("");
 
   const handleSignUp = async () => {
-    await createUserAccount({name: userName, emailId: emailId, password: password})
-  }
+    await createUserAccount({
+      name: userName,
+      emailId: emailId,
+      password: password,
+    });
+  };
 
   const handleReset = () => {
     setShowLoginForm(false);
@@ -52,7 +55,7 @@ export default function Home() {
             emailId={emailId}
             handleReset={handleReset}
             setShowProductCategories={setShowProductCategories}
-            handleSignUp = {handleSignUp}
+            handleSignUp={handleSignUp}
           />
         ) : showLoginForm ? (
           <LoginForm
@@ -62,7 +65,7 @@ export default function Home() {
             setPassword={setPassword}
             password={password}
             emailId={emailId}
-            setShowProductCategories = {setShowProductCategories}
+            setShowProductCategories={setShowProductCategories}
           />
         ) : (
           <SignUpForm
