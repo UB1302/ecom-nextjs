@@ -2,6 +2,7 @@
 
 import { api } from "~/trpc/server";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 interface UserAccountData {
   name: string;
@@ -59,7 +60,7 @@ export const createUserAccount = async ({
   await api.post.createUser({
     ...data,
   });
-  return data
+  return data;
   // {"id":2,"userId":"2d554794feca4ff6ec1a783ccca","name":"uttkarsh","emailId":"uttkarshbansal@gmail.com","password":"12345678","authToken":"af3e1563-f0ba-43fc-83f3-339aa56e917c"}
 };
 
@@ -69,6 +70,33 @@ export const createVerificationCode = async ({ emailId }: verificationCode) => {
   await api.post.createVerificationCode({
     emailId: emailId,
     verificationCode: eightDigitNumber,
+  });
+  sendOTPEmail(eightDigitNumber, emailId);
+};
+
+export const sendOTPEmail = (eightDigitNumber: number, emailId: string) => {
+  const apiUrl = "https://api.mailersend.com/v1/email";
+  const bearerToken =
+    "mlsn.3a8fb6fefb79fe30a6bf599ac499661c4b27532b707936543a7731868f7105a4";
+  let requestPayload = {
+    from: {
+      email: "info@trial-3zxk54v0je1gjy6v.mlsender.net"
+    },
+    to: [
+      {
+        email: emailId
+      },
+    ],
+    subject: "OTP",
+    text: `Greetings from the team, your OTP is ${eightDigitNumber}.`,
+    html: `Greetings from the team, your OTP is ${eightDigitNumber}.`
+  };
+  axios.post(apiUrl, requestPayload, {
+    headers: {
+      Authorization: `Bearer ${bearerToken}`,
+      "Content-Type": "application/json",
+      // Add any other headers as needed
+    },
   });
 };
 
@@ -82,10 +110,9 @@ export const getVerificationCodeAndVerify = async ({
   emailId,
   verificationCode,
 }: verifyCode) => {
-  
   // verificationCode = parseInt(verificationCode)
   let data = await api.post.getVerificationCode({ emailId, verificationCode });
-  
+
   if (data?.verificationCode === verificationCode) {
     return true;
   }
@@ -94,7 +121,7 @@ export const getVerificationCodeAndVerify = async ({
 
 export const loginUser = async ({ emailId, password }: loginUser) => {
   let authToken = uuidv4();
-  
+
   let data = await api.post.login({ emailId, password });
   if (data) {
     await api.post.createLoginAuthToken({
@@ -116,7 +143,7 @@ export const updateUserCategory = async ({
 };
 
 export const getUserCategories = async ({ userId }: user) => {
-  let data = await api.post.getUserCategories({ userId });  
+  let data = await api.post.getUserCategories({ userId });
   return data;
 };
 
@@ -127,7 +154,7 @@ interface pagination {
 
 export const getproductCategories = async ({ page, pageSize }: pagination) => {
   let data = await api.post.getProductCategories({ page, pageSize });
-  
+
   return data;
 };
 

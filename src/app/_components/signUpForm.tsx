@@ -44,7 +44,7 @@ export const SignUpForm = (props: {
     }
     
     await createVerificationCode({ emailId: props.emailId });
-
+    
     props.setShowVerificationForm(true);
     setIsLoading(false);
   };
