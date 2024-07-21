@@ -29,6 +29,8 @@ export const LoginForm = (props: {
   const handleSignUp = () => {
     props.setShowLoginForm(false);
     props.setShowVerificationForm(false);
+    props.setEmailId("");
+    props.setPassword("");
   };
 
   const handleLogin = async (e: any) => {

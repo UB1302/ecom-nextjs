@@ -22,7 +22,7 @@ export const VerificationForm = (props: {emailId: string, handleReset: (input: a
         // sign up user
         await props.handleSignUp()
         // redirect to category page
-        props.setShowProductCategories(true)
+        // props.setShowProductCategories(true)
     }else{
         // redirect to sign form and throw an error toast
         alert("Wrong verification code")

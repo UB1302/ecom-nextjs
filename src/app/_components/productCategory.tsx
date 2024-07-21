@@ -13,7 +13,7 @@ const paginationNumbers = [
 ];
 const pageSize = 6;
 
-export const ProductCategory = () => {
+export const ProductCategory = (props: {userAuth: object}) => {
   const [productCategoryList, setProductCategoryList] = useState<any[]>([]);
   const [userProductCategoryObj, setUserProductCategoryObj] = useState<{
     [key: string]: any;
@@ -31,13 +31,13 @@ export const ProductCategory = () => {
     getCategories();
     // userSelectedCategories();
     console.log(currentPage)
-  }, [currentPage]);
+  }, [currentPage,props.userAuth]);
 
   const getCategories = async () => {
     setIsLoading(true)
     let data = await getproductCategories({ page: currentPage, pageSize: pageSize });
     console.log(data);
-    userSelectedCategories(data);
+    await userSelectedCategories(data);
     setIsLoading(false)
   };
 

@@ -22,6 +22,10 @@ export default function Home() {
   const [userName, setUserName] = useState("");
   // const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
+  const [userAuth, setUserAuth] = useState({
+    userId: "",
+    name: ""
+  })
 
   useEffect(() => {
     let userAuth = localStorage.getItem("userAuth");
@@ -33,21 +37,28 @@ export default function Home() {
   }, []);
 
   const handleSignUp = async () => {
-    await createUserAccount({
+    let data = await createUserAccount({
       name: userName,
       emailId: emailId,
       password: password,
     });
+    
+    localStorage.setItem("userAuth", JSON.stringify({...data}));
+    setUserAuth({...data})
+    setShowProductCategories(true)
+    
   };
 
   const handleReset = () => {
     setShowLoginForm(false);
     setShowVerificationForm(false);
     setEmailId("");
+    setUserName("")
+    setPassword("")
   };
 
   if (showProductCategories) {
-    return <ProductCategory />;
+    return <ProductCategory userAuth = {userAuth}/>;
   } else {
     return (
       // <HydrateClient>
@@ -70,6 +81,7 @@ export default function Home() {
             password={password}
             emailId={emailId}
             setShowProductCategories={setShowProductCategories}
+            
           />
         ) : (
           <SignUpForm
