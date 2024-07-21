@@ -27,7 +27,7 @@
     // return <button onClick={(e)=> props.onClickHandler(e)} className="bg-black w-full h-full rounded-[6px] text-white" type = "submit">
     //     {props.text}
     // </button>
-    return <button className="bg-black w-full h-full rounded-[6px] text-white" type = "submit">
+    return <button className="bg-black w-full rounded-[6px] text-white h-[3rem] " type = "submit">
         {props.text}
     </button>
 }

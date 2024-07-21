@@ -60,10 +60,10 @@ export const SignUpForm = (props: {setEmailId: (input: any)=> void, setShowLogin
 
   return (
     <form onSubmit={(e) =>generateVerificationCode(e)}>
-      <div className="flex h-full w-full items-center justify-center">
-        <div className="flex min-h-[70vh] min-w-[40vw] flex-col items-center justify-center gap-12 rounded-[20px] border-2 border-[#C1C1C1]">
-          <h1>Create your account</h1>
-          <div className="w-4/5">
+      <div className="flex h-full w-full items-center justify-center p-6">
+        <div className="flex min-w-[40vw] flex-col items-center justify-center gap-12 rounded-[20px] border-2 border-[#C1C1C1] py-10 px-[60px]">
+          <h1 className="font-semibold text-[32px]">Create your account</h1>
+          <div className="w-full">
             <Input
               type="text"
               value={props.userName}
@@ -72,7 +72,7 @@ export const SignUpForm = (props: {setEmailId: (input: any)=> void, setShowLogin
               placeholder={"Enter your name"}
             />
           </div>
-          <div className="w-4/5">
+          <div className="w-full">
             <Input
               type="email"
               value={props.emailId}
@@ -81,7 +81,7 @@ export const SignUpForm = (props: {setEmailId: (input: any)=> void, setShowLogin
               placeholder={"Enter your email id"}
             />
           </div>
-          <div className="w-4/5">
+          <div className="w-full">
             <Input
               type="password"
               value={props.password}
@@ -90,14 +90,14 @@ export const SignUpForm = (props: {setEmailId: (input: any)=> void, setShowLogin
               placeholder={"Enter your name"}
             />
           </div>
-          <div className="h-[3rem] w-4/5">
+          <div className="w-full">
             <Button
               text={"CREATE ACCOUNT"}
               // onClickHandler={generateVerificationCode}
             ></Button>
           </div>
           <div>
-            Have an Account? <span onClick={()=> props.setShowLoginForm(true)}>LOGIN</span>
+            <span className="font-normal text-base">Have an Account?</span> <span className="text-base font-medium" onClick={()=> props.setShowLoginForm(true)}>LOGIN</span>
           </div>
         </div>
       </div>

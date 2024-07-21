@@ -10,7 +10,7 @@ export const Input = (props: {
 }) => {
   return (
     <>
-      <label>{props.label}</label>
+      <label className="pb-0.5 text-base font-light">{props.label}</label>
       <br />
       <input
         type={props.type}

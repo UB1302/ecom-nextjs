@@ -14,9 +14,7 @@ import { ProductCategory } from "./_components/productCategory";
 import { createUserAccount } from "./action";
 
 export default function Home() {
-  // const hello = await api.post.hello({ text: "from tRPC" });
-  // const data = await api.post.getProductCategories()
-  // console.log(data)
+  
   useEffect(()=>{
     let userAuth = localStorage.getItem("userAuth")
     console.log(userAuth)
@@ -24,9 +22,9 @@ export default function Home() {
 
   // void api.post.getLatest.prefetch();
   const [emailId, setEmailId] = useState("");
-  const [showLoginForm, setShowLoginForm] = useState(false);
+  const [showLoginForm, setShowLoginForm] = useState(true);
   const [showVerificationForm, setShowVerificationForm] = useState(false);
-  const [showProductCategories, setShowProductCategories] = useState(true);
+  const [showProductCategories, setShowProductCategories] = useState(false);
   const [userName, setUserName] = useState("");
   // const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
