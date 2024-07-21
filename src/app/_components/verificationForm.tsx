@@ -11,13 +11,13 @@ export const VerificationForm = (props: {emailId: string, handleReset: (input: a
 
   const verifyCode = async (e:any) => {
     e.preventDefault();
-    console.log("verifyCode")
-    console.log(typeof verificationCode)
+    
+    
     let code = Number(verificationCode)
-    console.log(typeof code, code)
+    
     // get verification code using email id and match
     let isValid =  await getVerificationCodeAndVerify({emailId: props.emailId, verificationCode: code})
-    console.log(isValid)
+    
     if(isValid){
         // sign up user
         await props.handleSignUp()

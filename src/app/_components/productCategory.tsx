@@ -30,13 +30,13 @@ export const ProductCategory = (props: {userAuth: object}) => {
   useEffect(() => {
     getCategories();
     // userSelectedCategories();
-    console.log(currentPage)
+    
   }, [currentPage,props.userAuth]);
 
   const getCategories = async () => {
     setIsLoading(true)
     let data = await getproductCategories({ page: currentPage, pageSize: pageSize });
-    console.log(data);
+    
     await userSelectedCategories(data);
     setIsLoading(false)
   };
@@ -54,10 +54,10 @@ export const ProductCategory = (props: {userAuth: object}) => {
 
         let dataObj: { [key: string]: any } = {};
         data.forEach((obj) => {
-          console.log(obj.categoryId);
+          
           dataObj[obj.categoryId] = obj;
         });
-        console.log(dataObj);
+        
         setUserProductCategoryObj(dataObj);
 
         let populatedCategoryList = categoryList.map((categoryObj) => {
@@ -67,14 +67,14 @@ export const ProductCategory = (props: {userAuth: object}) => {
             return { ...categoryObj, isSelected: false };
           }
         });
-        console.log(populatedCategoryList);
+        
         setProductCategoryList(populatedCategoryList);
       }
     }
   };
 
   const handleCheckChange = async (e: any, index: number) => {
-    console.log(e.target.checked);
+    
     let localProductCategoryList = productCategoryList;
     localProductCategoryList[index]["isSelected"] = e.target.checked;
     await updateUserCategories(localProductCategoryList[index]);
@@ -188,6 +188,7 @@ export const ProductCategory = (props: {userAuth: object}) => {
           <span className="px-2 text-[#ACACAC]" onClick={handleLeftArrow}>&lt;</span>
           {paginationNumbers.slice(paginationStartIndex, paginationStartIndex+6).map((page) => (
             <span
+            key = {page}
               className={
                 currentPage === page
                   ? "px-2 font-semibold"

@@ -29,7 +29,7 @@ export default function Home() {
 
   useEffect(() => {
     let userAuth = localStorage.getItem("userAuth");
-    console.log(userAuth);
+    
     if (userAuth) {
       setShowLoginForm(false);
       setShowProductCategories(true)

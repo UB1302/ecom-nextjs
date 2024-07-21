@@ -82,10 +82,10 @@ export const getVerificationCodeAndVerify = async ({
   emailId,
   verificationCode,
 }: verifyCode) => {
-  console.log(typeof verificationCode, "-----------------------------");
+  
   // verificationCode = parseInt(verificationCode)
   let data = await api.post.getVerificationCode({ emailId, verificationCode });
-  console.log(data, data?.verificationCode, verificationCode);
+  
   if (data?.verificationCode === verificationCode) {
     return true;
   }
@@ -94,7 +94,7 @@ export const getVerificationCodeAndVerify = async ({
 
 export const loginUser = async ({ emailId, password }: loginUser) => {
   let authToken = uuidv4();
-  console.log("loginUser", "******************************");
+  
   let data = await api.post.login({ emailId, password });
   if (data) {
     await api.post.createLoginAuthToken({
@@ -116,8 +116,7 @@ export const updateUserCategory = async ({
 };
 
 export const getUserCategories = async ({ userId }: user) => {
-  let data = await api.post.getUserCategories({ userId });
-  console.log(data);
+  let data = await api.post.getUserCategories({ userId });  
   return data;
 };
 
@@ -128,7 +127,7 @@ interface pagination {
 
 export const getproductCategories = async ({ page, pageSize }: pagination) => {
   let data = await api.post.getProductCategories({ page, pageSize });
-  console.log(data);
+  
   return data;
 };
 

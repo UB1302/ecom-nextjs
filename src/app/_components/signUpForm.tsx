@@ -42,8 +42,7 @@ export const SignUpForm = (props: {
       toast.error("Password length should be grater than equal to 8");
       return;
     }
-    console.log("generateVerificationCode");
-    console.log("generateVerificationCode");
+    
     await createVerificationCode({ emailId: props.emailId });
 
     props.setShowVerificationForm(true);
